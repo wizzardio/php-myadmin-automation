@@ -8,28 +8,28 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
 public class HomePageTest {
-    private static String LOGIN_URL = "http://127.0.0.1/openserver/phpmyadmin/index.php";
-    private DriverService driverService = new DriverService();
+    private static final String LOGIN_URL = "http://127.0.0.1/openserver/phpmyadmin/index.php";
     private WebDriver webDriver;
     private HomePage homePage;
 
     @Before
     public void setUp() {
-        webDriver = new DriverService().login(LOGIN_URL);
+        DriverService driverService = new DriverService(LOGIN_URL);
+        webDriver = driverService.getWebDriver();
         homePage = new HomePage(webDriver);
         LoginPage loginPage = new LoginPage(webDriver);
-        loginPage.register("root","");
+        loginPage.register("root", "");
     }
 
     @Test
-    public void getHomePageLogoTest  () {
+    public void getHomePageLogoTest() {
         String heading = homePage.getHomePageText("");
         Assert.assertEquals("Appearance settings", heading);
     }
 
 
     @After
-    public void tearDown (){
+    public void tearDown() {
         webDriver.quit();
     }
 }

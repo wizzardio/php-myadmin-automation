@@ -8,20 +8,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 public class DriverService {
         private static String CHROME_PATH = "D:\\PHPMyadmin\\Drivers\\chromedriver.exe";
         private WebDriver webDriver;
+        private String path;
 
-        public void closeDriver(WebDriver webDriver) {
-           webDriver.close();
-           webDriver.quit();
+        public DriverService( String path) {
+            this.path = path;
         }
 
-        public WebDriver login (String path) {
-
-            getWebDriver();
-            webDriver.get(path);
-            return webDriver;
-        }
-
-        private WebDriver getWebDriver() {
+        public WebDriver getWebDriver() {
             if (webDriver != null) {
                 return webDriver;
             }
@@ -32,6 +25,7 @@ public class DriverService {
             options.addArguments("--no`-sandbox");
 
             webDriver = new ChromeDriver(options);
+            webDriver.get(path);
             return webDriver;
         }
 

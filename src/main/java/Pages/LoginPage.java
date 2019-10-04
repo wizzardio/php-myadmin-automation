@@ -5,9 +5,9 @@ import org.openqa.selenium.WebDriver;
 
 public class LoginPage {
     private WebDriver driver;
-    //public LoginPage(WebDriver driver) {
-   //     this.driver = driver;
-   // }
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+    }
 
     private By goButton = By.xpath("//input[@id='input_go']");
     private By userNameField = By.xpath("//input[@id='input_username']");
