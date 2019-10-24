@@ -44,15 +44,6 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    public LoginPage loginWithInvalidCred (String username, String password) {
-        this.visit();
-        this.setLanguage();
-        this.typeUserName(username);
-        this.passwordField(password);
-        this.clickGo();
-        return new LoginPage(driver);
-    }
-
     public String getErrorText (){
         return find(registerError).getText();
     }

@@ -10,15 +10,10 @@ import org.junit.Test;
 
 public class LoginPageTest extends BaseTest {
 
-    @Before
-    public  void setupTest() {
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.loginWithInvalidCred("root2", "test");
-    }
-
     @Test
     public void loginWithInvalidCredsTest() {
         LoginPage loginPage = new LoginPage(driver);
+        loginPage.register("root2", "test");
         String errorText = loginPage.getErrorText();
         Assert.assertEquals("Cannot log in to the MySQL server", errorText);
     }
