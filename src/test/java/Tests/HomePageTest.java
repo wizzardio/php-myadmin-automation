@@ -7,6 +7,7 @@ import Pages.LoginPage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 public class HomePageTest extends BaseTest {
 
@@ -23,7 +24,17 @@ public class HomePageTest extends BaseTest {
         String heading = homePage.getHomePageText("");
         Assert.assertEquals("Appearance settings", heading);
     }
+
+    @Test
+    public void checkDisplayingMenuTabs () {
+        HomePage homePage = new HomePage(driver);
+        Assertions.assertAll(
+            () -> Assertions.assertTrue(homePage.getDatabaseLogo()),
+            () -> Assertions.assertTrue(homePage.getSqlLogo()));
+    }
+
 }
+
 
 
 
