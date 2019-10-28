@@ -15,7 +15,9 @@ public class LoginPage extends BasePage {
     By userNameField = By.xpath("//input[@id='input_username']");
     By passwordField = By.xpath("//input[@id='input_password']");
     By selectLanguage = By.xpath("//select[@id='sel-lang']");
+    By registerError = By.xpath("//div[contains(text(),'Cannot log in to the MySQL server')]");
     By selectEnglish = By.xpath("(//option[contains(text(),'English')])[1]");
+
 
     private void visit(){
         driver.get(this.url);
@@ -25,7 +27,6 @@ public class LoginPage extends BasePage {
         find(selectLanguage).click();
         find(selectEnglish).click();
     }
-
 
     private HomePage clickGo() {
         find(goButton).click();
@@ -41,6 +42,10 @@ public class LoginPage extends BasePage {
     private LoginPage passwordField(String password) {
         find(passwordField).sendKeys(password);
         return this;
+    }
+
+    public String getErrorText (){
+        return find(registerError).getText();
     }
 
     public void register(String username, String password) {
