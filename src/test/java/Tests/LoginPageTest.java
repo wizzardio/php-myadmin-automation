@@ -4,7 +4,8 @@ package Tests;
 import BaseClasses.BaseTest;
 import Pages.LoginPage;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+//import org.junit.jupiter.api.Test;
 
 
 public class LoginPageTest extends BaseTest {
