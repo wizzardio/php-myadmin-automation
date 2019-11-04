@@ -4,6 +4,10 @@ package Pages;
 import BaseClasses.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
 import static org.openqa.selenium.By.xpath;
@@ -21,13 +25,11 @@ public class HomePage extends BasePage {
     private By databaseNameInput = xpath("//input[@id='text_create_db']");
     private By createDatabaseButton = xpath("//input[@id='buttonGo']");
     private By databaseTab = By.partialLinkText("Databas");
-    private By operationsTab = By.xpath("//div[@id='floating_menubar']//li[7]//a[1]");
+    private By operationsTab = By.xpath("//ul[@id='topmenu']/li/a/img[@title='Operations']");
     private By dropDatabaseButton = By.xpath("//a[@id='drop_db_anchor']");
     private By confirmDropDatabaseButton = By.xpath("//button[@class='submitOK ui-button ui-corner-all ui-widget']");
-
     private String databaseByTextSidebar = "//a[@class='hover_show_full' and text()='%s']";
-    private String databaseTextMenu = "//td[@class='name']//a[contains(text(),'@s')]";
-    private String databaseTextSidebar = "//a[contains(text(),'qa')]";
+    private String databaseTextSidebar = "//a[contains(text(),'%s')]";
     private By databaseMenuInput = xpath("//input[@type='text' and @name='table'] ");
     private By menuGoButton = xpath("//fieldset[@class='tblFooters']//input");
     private By columnTableName = xpath("//input[@id='field_0_1']");
@@ -48,54 +50,46 @@ public class HomePage extends BasePage {
         return find(databaseLogo).isDisplayed();
     }
 
-    private HomePage clickDatabaseTab() {
+    private void clickDatabaseTab() {
         find(databaseTab).click();
-        return this;
     }
 
-    private HomePage confirmDeleteDatabase() {
+    private void confirmDeleteDatabase() {
         find(confirmDropDatabaseButton).click();
-        return this;
     }
 
-    private HomePage clickMenuSaveButton() {
+    private void clickMenuSaveButton() {
         find(columnSaveButton).click();
-        return this;
     }
-    private HomePage clickDropDatabaseButton() {
+    private void clickDropDatabaseButton() {
         find(dropDatabaseButton).click();
-        return this;
     }
 
-    private HomePage clickOperationsButton() {
-        find(operationsTab).click();
-        return this;
-    }
-
-    private HomePage clickMenuDatabaseGoButton() {
+    private void clickMenuDatabaseGoButton() {
         find(menuGoButton).click();
-        return this;
     }
 
-    private HomePage typeColumnTableName(String databaseColumnName) {
+    private void typeColumnTableName(String databaseColumnName) {
         find(columnTableName).sendKeys(databaseColumnName);
-        return this;
     }
 
-    private HomePage typeDatabaseName(String databaseName) {
+    private void typeDatabaseName(String databaseName) {
         find(databaseNameInput).sendKeys(databaseName);
-        return this;
     }
 
-    private HomePage typeMenuTableName(String databaseMenuName) {
+    private void typeMenuTableName(String databaseMenuName) {
         find(databaseMenuInput).sendKeys(databaseMenuName);
-        return this;
     }
 
-    private HomePage clickCreateDatabaseButton() {
+    private void clickCreateDatabaseButton() {
         find(createDatabaseButton).click();
-        return this;
     }
+
+    private void clickOnDatabaseSidebar(String value){
+        driver.findElement(By.xpath(format(databaseByTextSidebar, value))).click();
+        new WebDriverWait(driver,5).until(ExpectedConditions.elementToBeClickable(operationsTab)).click();
+    }
+
 
     public boolean isDatabaseVisible(String message){
         return driver.findElements(By.xpath(format(databaseByTextSidebar, message))).size()>0 &&
@@ -105,6 +99,13 @@ public class HomePage extends BasePage {
     public boolean isTableSidebarVisible(String message){
         return driver.findElements(By.xpath(format(databaseTextSidebar, message))).size()>0 &&
                 driver.findElements(By.xpath(format(databaseTextSidebar, message))).get(0).isDisplayed();
+    }
+
+    public boolean isDatabaseVisibleAfterDeletion(String message){
+        driver.manage().timeouts().implicitlyWait(3, TimeUnit.MILLISECONDS);
+        String databaseFindLink = "%s";
+        return driver.findElement(By.linkText(format(databaseFindLink, message))).getText().isEmpty();
+
     }
 
     public void createNewDatabase(String databaseName) {
@@ -119,6 +120,14 @@ public class HomePage extends BasePage {
         this.clickMenuDatabaseGoButton();
         this.typeColumnTableName(databaseColumnName);
         this.clickMenuSaveButton();
+        new HomePage(driver);
+    }
+
+    public void deleteDatabase(String value ) {
+        this.clickOnDatabaseSidebar(value);
+        this.clickDropDatabaseButton();
+        this.confirmDeleteDatabase();
+        this.clickDatabaseTab();
         new HomePage(driver);
     }
 }

@@ -1,6 +1,7 @@
 package BaseClasses;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -20,8 +21,8 @@ public class BaseTest {
 
     }
 
-   // @AfterClass
-  //  public static void tearDown(){
-  //      driver.quit();
-  //  }
+    @AfterClass
+   public static void tearDown(){
+        driver.quit();
+    }
 }
