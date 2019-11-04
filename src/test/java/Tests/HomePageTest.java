@@ -7,6 +7,7 @@ import Pages.LoginPage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 public class HomePageTest extends BaseTest {
 
@@ -19,11 +20,34 @@ public class HomePageTest extends BaseTest {
     @Test
     public void getHomePageLogoTest() {
         HomePage homePage= new HomePage(driver);
-
         String heading = homePage.getHomePageText("");
         Assert.assertEquals("Appearance settings", heading);
     }
+
+    @Test
+    public void checkDisplayingMenuTabs () {
+        HomePage homePage = new HomePage(driver);
+        Assertions.assertAll(
+            () -> Assertions.assertTrue(homePage.getDatabaseLogo()),
+            () -> Assertions.assertTrue(homePage.getSqlLogo()));
+    }
+
+    @Test
+    public void checkCreateNewDatabase() {
+        HomePage homePage= new HomePage(driver);
+        homePage.createNewDatabase("qwert1");
+        Assert.assertTrue(homePage.isDatabaseVisible("qwert1"));
+    }
+
+    @Test
+    public void checkCreateNewTable() {
+        HomePage homePage= new HomePage(driver);
+        homePage.createNewDatabase("final1");
+        homePage.createNewTable("qa", "conumn");
+        Assert.assertFalse(homePage.isTableSidebarVisible("final"));
+    }
 }
+
 
 
 
