@@ -42,9 +42,16 @@ public class HomePageTest extends BaseTest {
     @Test
     public void checkCreateNewTable() {
         HomePage homePage= new HomePage(driver);
-        homePage.createNewDatabase("final1");
-        homePage.createNewTable("qa", "conumn");
-        Assert.assertFalse(homePage.isTableSidebarVisible("final"));
+        homePage.createNewDatabase("testdb");
+        homePage.createNewTable("test", "testColumn");
+        Assert.assertTrue(homePage.isTableSidebarVisible("12"));
+    }
+
+    @Test
+    public void checkDeletionDatabaseTable() {
+        HomePage homePage= new HomePage(driver);
+        homePage.deleteDatabase("testdb");
+        Assert.assertFalse(homePage.isDatabaseVisibleAfterDeletion("testdb"));
     }
 }
 
