@@ -20,7 +20,6 @@ public class HomePageTest extends BaseTest {
     @Test
     public void getHomePageLogoTest() {
         HomePage homePage= new HomePage(driver);
-
         String heading = homePage.getHomePageText("");
         Assert.assertEquals("Appearance settings", heading);
     }
@@ -33,6 +32,20 @@ public class HomePageTest extends BaseTest {
             () -> Assertions.assertTrue(homePage.getSqlLogo()));
     }
 
+    @Test
+    public void checkCreateNewDatabase() {
+        HomePage homePage= new HomePage(driver);
+        homePage.createNewDatabase("qwert1");
+        Assert.assertTrue(homePage.isDatabaseVisible("qwert1"));
+    }
+
+    @Test
+    public void checkCreateNewTable() {
+        HomePage homePage= new HomePage(driver);
+        homePage.createNewDatabase("final1");
+        homePage.createNewTable("qa", "conumn");
+        Assert.assertFalse(homePage.isTableSidebarVisible("final"));
+    }
 }
 
 
