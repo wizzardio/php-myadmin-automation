@@ -53,6 +53,12 @@ public class HomePageTest extends BaseTest {
         homePage.deleteDatabase("testdb");
         Assert.assertFalse(homePage.isDatabaseVisibleAfterDeletion("testdb"));
     }
+    @Test
+    public void checkQueryImplementation(){
+        HomePage homePage = new HomePage(driver);
+        homePage.typeQuery("testdb", "CREATE TABLE newTable12(column1 VARCHAR(32), column2 VARCHAR(64))");
+        Assert.assertTrue(homePage.getSQLSuccessMessage());
+    }
 }
 
 

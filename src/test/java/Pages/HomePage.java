@@ -3,6 +3,7 @@ package Pages;
 
 import BaseClasses.BasePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -34,7 +35,9 @@ public class HomePage extends BasePage {
     private By menuGoButton = xpath("//fieldset[@class='tblFooters']//input");
     private By columnTableName = xpath("//input[@id='field_0_1']");
     private By columnSaveButton = xpath("//input[@name='do_save_data']");
-
+    private By successMessageTableCreation = xpath("//div[@class='success']");
+    private By sqlTextarea = xpath("//div[@id='sqlquerycontainerfull']/div/div/textarea");
+    private By sqlTabGoButton = xpath("//input[@id='button_submit_query']");
 
 
 
@@ -46,13 +49,23 @@ public class HomePage extends BasePage {
         return find(sqlLogo).isDisplayed();
     }
 
+    public Boolean getSQLSuccessMessage (){
+        return find(successMessageTableCreation).isDisplayed();
+    }
+
     public Boolean getDatabaseLogo (){
         return find(databaseLogo).isDisplayed();
+    }
+
+    private void clickSQLTab() {
+        find(sqlLogo).click();
     }
 
     private void clickDatabaseTab() {
         find(databaseTab).click();
     }
+
+    private void clickSqlTabGoButton() {find(sqlTabGoButton).click();}
 
     private void confirmDeleteDatabase() {
         find(confirmDropDatabaseButton).click();
@@ -61,6 +74,7 @@ public class HomePage extends BasePage {
     private void clickMenuSaveButton() {
         find(columnSaveButton).click();
     }
+
     private void clickDropDatabaseButton() {
         find(dropDatabaseButton).click();
     }
@@ -71,6 +85,12 @@ public class HomePage extends BasePage {
 
     private void typeColumnTableName(String databaseColumnName) {
         find(columnTableName).sendKeys(databaseColumnName);
+    }
+
+    private void typeSQLQuery(String sqlQuery) {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("arguments[0].click();", find(By.cssSelector(".CodeMirror-line:nth-child(2)")));
+        find(sqlTextarea).sendKeys(sqlQuery);
     }
 
     private void typeDatabaseName(String databaseName) {
@@ -90,7 +110,6 @@ public class HomePage extends BasePage {
         new WebDriverWait(driver,5).until(ExpectedConditions.elementToBeClickable(operationsTab)).click();
     }
 
-
     public boolean isDatabaseVisible(String message){
         return driver.findElements(By.xpath(format(databaseByTextSidebar, message))).size()>0 &&
                 driver.findElements(By.xpath(format(databaseByTextSidebar, message))).get(0).isDisplayed();
@@ -105,7 +124,6 @@ public class HomePage extends BasePage {
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.MILLISECONDS);
         String databaseFindLink = "%s";
         return driver.findElement(By.linkText(format(databaseFindLink, message))).getText().isEmpty();
-
     }
 
     public void createNewDatabase(String databaseName) {
@@ -130,4 +148,14 @@ public class HomePage extends BasePage {
         this.clickDatabaseTab();
         new HomePage(driver);
     }
+
+    public void typeQuery (String value, String sqlQuery) {
+        this.clickOnDatabaseSidebar(value);
+        this.clickSQLTab();
+        this.typeSQLQuery(sqlQuery);
+        this.clickSqlTabGoButton();
+        new HomePage(driver);
+    }
+
+
 }
