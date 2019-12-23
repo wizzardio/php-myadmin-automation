@@ -156,6 +156,4 @@ public class HomePage extends BasePage {
         this.clickSqlTabGoButton();
         new HomePage(driver);
     }
-
-
 }
