@@ -6,9 +6,9 @@
 	<session-factory>
 		<!-- Database connection properties - Driver, URL, user, password -->
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://localhost/hibernatedemo</property>
+		<property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/openserver/phpmyadmin/index.php</property>
 		<property name="hibernate.connection.username">root</property>
-		<property name="hibernate.connection.password">root</property>
+		<property name="hibernate.connection.password">""</property>
 		<!-- Connection Pool Size -->
 		<property name="hibernate.connection.pool_size">1</property>
 		
